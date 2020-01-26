@@ -1,0 +1,9 @@
+.question {
+    color: rgb(11, 3, 41);
+        font-weight: bold;
+}
+
+.question-card {
+    margin: 10px;
+    padding: 5px;
+}

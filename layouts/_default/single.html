@@ -1,0 +1,9 @@
+{{ define "main" }}
+<h1 class="feedback">{{.Title}}</h1>
+{{ $pt := (index .Site.Data .Params.feedback) }}
+<div>
+    {{ range $idx, $question := $pt.questions }}
+        {{ partial "question.html" (dict "idx" $idx "question" $question) }}
+    {{end}}
+</div>
+{{ end }}
