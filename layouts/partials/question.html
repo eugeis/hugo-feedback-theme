@@ -1,5 +1,12 @@
   <div class="mdc-card question-card">
+	{{ if .question.keyword }}
+	<span class="question"><span class="keyword">{{ .question.keyword }}: </span>{{ .question.question }}</span>
+	{{ else }}
 	<span class="question">{{ .question.question }}</span>
-	<span class="hint">{{ .question.hint }}</span>
-	{{ partial "raiting.html" . }}
+	{{ end }}
+	{{ if eq .question.rating.type "dual" }}
+		{{ partial "raiting_dual.html" . }}
+	{{ else }}
+		{{ partial "raiting_linear.html" . }}
+	{{ end }}
   </div>

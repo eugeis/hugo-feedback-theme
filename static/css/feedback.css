@@ -1,9 +1,20 @@
 .question {
     color: rgb(11, 3, 41);
-        font-weight: bold;
+    font-weight: 600;
+}
+
+.keyword {
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 .question-card {
-    margin: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.note-card {
+    width: 100%;
+    margin-top: 10px;
     padding: 5px;
 }

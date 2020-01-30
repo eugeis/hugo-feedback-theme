@@ -1,28 +1,68 @@
-fieldset, label { margin: 0; padding: 0; }
-
 .rating {
-  border: none;
-  float: left;
+  display: inline-block;
+  margin-right: 3px;
 }
 
 .rating > input { display: none; }
-.rating > label:before {
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: "\f005";
-}
 
-.rating > .half:before {
-  content: "\f089";
-  position: absolute;
+.rating > label:before {
+  font-family: FontAwesome;
+  content: "\f005";
 }
 
 .rating > label {
   color: #ddd;
- float: right;
+  margin-right: 2px;
 }
+
+.rSz1 > label {
+  font-size: 0.7rem;
+}
+
+.rSz2 > label {
+  font-size: 0.9rem;
+}
+
+.rSz3 > label {
+  font-size: 1.1rem;
+}
+
+.rSz4 > label {
+  font-size: 1.3rem;
+}
+
+.rSz5 > label {
+  font-size: 1.5em;
+}
+
+
+
+.rSz1 > label > span {
+  color: black;
+  font-size: 0.8rem;
+}
+
+.rSz2 > label > span {
+  color: black;
+  font-size: 0.9rem;
+}
+
+.rSz3 > label > span {
+  color: black;
+  font-size: 1.0rem;
+}
+
+.rSz4 > label > span {
+  color: black;
+  font-size: 1.1rem;
+}
+
+.rSz5 > label > span {
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
 
 /***** CSS Magic to Highlight Stars on Hover *****/
 
