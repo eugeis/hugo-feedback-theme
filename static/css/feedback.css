@@ -1,11 +1,12 @@
 .question {
-    color: rgb(11, 3, 41);
+    color: rgb(55, 54, 59);
     font-weight: 600;
 }
 
 .keyword {
     font-weight: bold;
     letter-spacing: 2px;
+    color: rgb(23, 23, 71);
 }
 
 .question-card {
