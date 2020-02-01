@@ -9,6 +9,10 @@
     color: rgb(23, 23, 71);
 }
 
+.note {
+    font-size: small;
+}
+
 .question-card {
     margin-top: 10px;
     padding: 5px;

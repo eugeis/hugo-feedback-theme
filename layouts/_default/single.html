@@ -1,25 +1,30 @@
 {{ define "main" }}
 <h1 class="feedback">{{ .Title }}</h1>
+{{ $params := .Site.Params }}
 {{ $pt := (index .Site.Data .Params.feedback) }}
 <div>
     {{ $questionNr := 0 }}
     {{ range $group, $questions := $pt }}
     <div>
+        {{ if $group }}
         <h2 class="group">{{ $group }}</h2>
+        {{end}}
         {{ range $idx, $question := $questions }}
             {{ $questionNr = add $questionNr 1 }}
-            {{ partial "question.html" (dict "questionNr" $questionNr "question" $question) }}
+            {{ partial "question.html" (dict "questionNr" $questionNr "question" $question "Params" $params) }}
         {{end}}
     </div>
     {{end}}
 </div>
 <h2>Zusammenfassung</h2>
 <div class="mdc-text-field mdc-text-field--fullwidth mdc-text-field--textarea mdc-text-field--no-label">
-    <textarea class="mdc-text-field__input" rows="8" cols="40" placeholder="Die Predigt fand ich ..." aria-label="Zusammenfassung"></textarea>
-    <div class="mdc-notched-outline">
-      <div class="mdc-notched-outline__leading"></div>
-      <div class="mdc-notched-outline__trailing"></div>
-    </div>
+  <textarea class="mdc-text-field__input" rows="8" cols="40" placeholder="Die Predigt fand ich ..." aria-label="Zusammenfassung"></textarea>
+  <div class="mdc-notched-outline">
+    <div class="mdc-notched-outline__leading"></div>
+    <div class="mdc-notched-outline__trailing"></div>
   </div>
-
+</div>
+  {{ if .Site.Params.emailbridge }}
+	  {{ partial "sendemail.html" .Site.Params }}
+	{{ end }}
 {{ end }}
