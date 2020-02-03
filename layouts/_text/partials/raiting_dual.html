@@ -1,20 +1,16 @@
 {{ $id := (printf "q%v" .questionNr) }}
 <div class="rating">
     {{ $questionNr := .questionNr }}
+    {{ $questionJson := .questionJson }}
     {{ $scala := .question.rating.scala }}
     {{ if $scala }}
         {{ $raitingCount := len $scala }}
         {{ $middle := div $raitingCount 2 }}
-
-        {{ if not (modBool $raitingCount 2) }}
-        {{else}}
-        {{end}}
-
         {{ $rating := 1 }}
         {{ range $scalaIdx, $scalaItem := $scala }}
             {{ $id := (printf "q%v_%v" $questionNr $scalaIdx) }}
     <div class="rating rSz{{ $rating }}">
-        <input type="radio" id="{{ $id }}" name="{{ $questionNr }}-r" value="{{ $rating }}" />
+        <input type="radio" id="{{ $id }}" name="{{ $questionNr }}-r" value="{{ $rating }}" onchange="onRatingSzChange('{{ $scalaItem }}', {{ $rating }}, {{ $questionJson }});" />
         <label class="rating-dual" for="{{ $id }}"><span>{{ $scalaItem }}</span></label>
     </div>
             {{ if (ge $scalaIdx $middle) }}

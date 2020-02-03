@@ -1,17 +1,23 @@
 {{ define "main" }}
 <h1 class="feedback">{{ .Title }}</h1>
 {{ $params := .Site.Params }}
-{{ $pt := (index .Site.Data .Params.feedback) }}
+{{ $feedback := (index .Site.Data .Params.feedback) }}
+{{ if .Site.Params.emailbridge }}
+  {{ partial "emailbridge.html" (dict "Params" .Site.Params "feedback" $feedback) }}
+{{ end }}
 <div>
+    {{ $groupNr := 1 }}
     {{ $questionNr := 0 }}
-    {{ range $group, $questions := $pt }}
+    {{ range $group, $questions := $feedback }}
     <div>
         {{ if $group }}
         <h2 class="group">{{ $group }}</h2>
         {{end}}
         {{ range $idx, $question := $questions }}
+            {{ $questionJson := printf "fbGr%v[%v]" $groupNr $questionNr }}
+            {{ $groupNr = add $groupNr 1 }}
             {{ $questionNr = add $questionNr 1 }}
-            {{ partial "question.html" (dict "questionNr" $questionNr "question" $question "Params" $params) }}
+            {{ partial "question.html" (dict "questionNr" $questionNr "questionJson" $questionJson "question" $question "Params" $params) }}
         {{end}}
     </div>
     {{end}}
@@ -24,7 +30,5 @@
     <div class="mdc-notched-outline__trailing"></div>
   </div>
 </div>
-  {{ if .Site.Params.emailbridge }}
-	  {{ partial "sendemail.html" .Site.Params }}
-	{{ end }}
+<button id="sendEmail" class="sendEmail" onclick="sendEmail(this);">Bewertung absenden</button>
 {{ end }}

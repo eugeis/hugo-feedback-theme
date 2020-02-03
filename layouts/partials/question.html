@@ -1,14 +1,14 @@
   <div class="mdc-card question-card">
-	{{ if and .Params.showKeyword .question.keyword }}
+	{{- if and .Params.showKeyword .question.keyword -}}
 	<span class="keyword">{{ .question.keyword }}: </span>
-	{{ end }}
+	{{- end -}}
 	<span class="question">{{ .question.question }}</span>
-	{{ if .question.note }}
+	{{- if .question.note -}}
 	<span class="note">{{ .question.note }}: </span>
-	{{ end }}
-	{{ if eq .question.rating.type "dual" }}
-		{{ partial "raiting_dual.html" . }}
-	{{ else }}
-		{{ partial "raiting_linear.html" . }}
-	{{ end }}
+	{{- end -}}
+	{{- if eq .question.rating.type "dual" -}}
+		{{- partial "raiting_dual.html" . -}}
+	{{- else -}}
+		{{- partial "raiting_linear.html" . -}}
+	{{- end -}}
   </div>
