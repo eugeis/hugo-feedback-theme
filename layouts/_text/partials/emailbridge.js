@@ -1,5 +1,5 @@
     var emailbridge = "{{ .Params.emailbridge }}"
-   
+
     var feedback = {{ .feedback | jsonify }}
 
     {{ $groupNr := 1 }}
@@ -16,30 +16,27 @@
     }
 
     function sendEmail(button) {
-        var sendEmail = button.disabled = true;
+        //var sendEmail = button.disabled = true;
 
         var emailCode = getUrlVars()["emailCode"];
         if (emailCode && emailCode != "") {
             $.ajax({
-                contentType: 'application/json',
                 data: {
-                    feedback
+                    emailBody: JSON.stringify(feedback)
                 },
-                dataType: 'json',
                 success: function (data) {
                     app.log("device control succeeded");
                 },
-                error: function () {
+                error: function (err) {
                     app.log("Device control failed");
                 },
-                processData: false,
                 type: 'POST',
-                url: emailbridge + "?emailCode=" + emailCode
+                url: emailbridge + "/sendemail?emailCode=" + emailCode
             });
             button.innerText = "Gesendet an " + emailName
+        } else {
+            button.innerText = "Absenden unmöglich, da keine Email Daten"
         }
-
-        button.innerText = "Gesendet an " + emailName
     }
 
     function getUrlVars() {
