@@ -58,7 +58,6 @@
     }
 
     function sendEmail(button) {
-        //var sendEmail = button.disabled = true;
         var emailCode = getUrlVars()["emailCode"];
         if (emailCode && emailCode != "") {
 
@@ -70,15 +69,16 @@
                     emailBody: emailBody
                 },
                 success: function (data) {
-                    console.log("device control succeeded");
+                    button.disabled = true;
+                    button.innerText = "Gesendet an " + emailName
+                    alert("Erfolgreich abgesendet an " + emailName)
                 },
                 error: function (err) {
-                    console.log("Device control failed");
+                    alert("Fehler bei Absenden: " + err)
                 },
                 type: 'POST',
                 url: emailbridge + "/sendemail?emailCode=" + emailCode
             });
-            button.innerText = "Gesendet an " + emailName
         } else {
             button.innerText = "Absenden unmöglich, da keine Email Daten"
         }
