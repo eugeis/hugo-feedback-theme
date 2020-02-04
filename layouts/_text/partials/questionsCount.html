@@ -1,0 +1,5 @@
+{{- $questionsCount := 0 }}
+{{- range $group, $questions := . }}
+        {{- $questionsCount = add $questionsCount (len $questions) }}
+{{- end }}
+{{- $questionsCount }}

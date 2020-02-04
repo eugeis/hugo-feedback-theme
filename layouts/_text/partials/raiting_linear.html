@@ -1,15 +1,15 @@
-{{- $id := (printf "q%v" .questionNr) }}
+{{- $id := (printf "q%v" .questionIdx) }}
   <div class="rating">
-    {{- $questionNr := .questionNr }}
+    {{- $questionIdx := .questionIdx }}
     {{- $questionJson := .questionJson }}
     {{- $scala := .question.rating.scala }}
     {{- if $scala }}
         {{- $rating := 0 }}
         {{- range $scalaIdx, $scalaItem := $scala }}
             {{- $rating = (add $rating 1) }}
-            {{- $id := (printf "q%v_%v" $questionNr $scalaIdx) }}
+            {{- $id := (printf "q%v_%v" $questionIdx $scalaIdx) }}
     <div class="rating rSz{{- $rating }}">
-      <input type="radio" id="{{- $id }}" name="{{- $questionNr }}-rating" value="{{- $rating }}" onchange="onRatingSzChange('{{- $scalaItem }}', {{- $rating }}, {{- $questionJson }});" />
+      <input type="radio" id="{{- $id }}" name="{{- $questionIdx }}-r" value="{{- $rating }}" onchange="onRatingSzChange('{{- $scalaItem }}', {{- $rating }}, {{- $questionIdx }});" />
       <label class = "rating-linear" for="{{- $id }}"><span>{{- $scalaItem }}</span></label>
     </div>
         {{- end }}

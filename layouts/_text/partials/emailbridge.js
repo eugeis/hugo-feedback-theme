@@ -1,34 +1,76 @@
     var emailbridge = "{{ .Params.emailbridge }}"
 
-    var feedback = {{ .feedback | jsonify }}
+    var questionsCount = {{ partial "questionsCount.html" .feedback }}
+    var raiting = new Array(questionsCount);
 
-    {{ $groupNr := 1 }}
-    {{- range $group, $questions := .feedback -}}
-    var fbGr{{ $groupNr }} = feedback["{{$group}}"]{{ $groupNr = add $groupNr 1 }}
-    {{end}}
     var emailSubject = ""
     var emailName = ""
 
-    function onRatingSzChange(ratingText, ratingValue, jsonItem) {
-        jsonItem.rated = {}
-        jsonItem.rated.text = ratingText
-        jsonItem.rated.value = ratingValue
+    function onRatingSzChange(ratingText, ratingValue, questionIdx) {
+        raiting[questionIdx] = {}
+        raiting[questionIdx].text = ratingText
+        raiting[questionIdx].value = ratingValue
+    }
+
+    function raitingQuestion(questionIdx) {
+        var rated = raiting[questionIdx]
+        if (rated) {
+            return rated.text + "(" + rated.value + ")"
+        } else {
+            return "Keine Bewertung"
+        }
+    }
+
+    function raitingNode() {
+        return document.getElementById("raitingNote").value
+    }
+
+    function buildEmailBody() {
+        var ret = `<html><body>
+        <h1>Predigtbewertung</h1>
+        <h2>${ emailSubject }</h2>
+        <span><i>Skala 1 bis 5 (5 = Bester Wert)</i></span>
+    {{- $questionIdx := 0 }}
+    {{- range $group, $questions := .feedback }}
+        {{- if $group }}
+        <h2>{{- $group }}</h2>
+        {{- end -}}
+        {{- range $idx, $question := $questions -}}
+        <p>
+            {{- if and .Params.showKeyword $question.keyword -}}
+            <span>{{ $question.keyword }}: </span>
+            {{- end -}}
+            <span>{{ $question.question -}}</span>
+            {{- if $question.note -}}
+            <span>{{ $question.note }}: </span>
+            {{- end -}}
+            </br><span><strong> ${ raitingQuestion({{- $questionIdx }}) }</strong> aus ({{ delimit $question.rating.scala ";" }})</<span>
+        </p>
+            {{- $questionIdx = add $questionIdx 1 -}}
+        {{- end -}}
+    {{- end -}}
+        <h2>Zusammenfassung</h2>
+        <p>${ raitingNode() }</p></body></html>`;
+        return ret;
     }
 
     function sendEmail(button) {
         //var sendEmail = button.disabled = true;
-
         var emailCode = getUrlVars()["emailCode"];
         if (emailCode && emailCode != "") {
+
+            var emailBody = buildEmailBody()
+            console.log(emailBody)
+
             $.ajax({
                 data: {
-                    emailBody: JSON.stringify(feedback)
+                    emailBody: emailBody
                 },
                 success: function (data) {
-                    app.log("device control succeeded");
+                    console.log("device control succeeded");
                 },
                 error: function (err) {
-                    app.log("Device control failed");
+                    console.log("Device control failed");
                 },
                 type: 'POST',
                 url: emailbridge + "/sendemail?emailCode=" + emailCode
