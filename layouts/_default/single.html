@@ -16,7 +16,7 @@
         {{- range $idx, $question := $questions }}
             {{- $questionJson := printf "fbGr%v[%v]" $groupNr $idx }}
             {{- partial "question.html" (dict "questionIdx" $questionIdx "questionJson" $questionJson "question" $question "Params" $params) }}
-            {{- $questionIdx = add $questionIdx 1 }}    
+            {{- $questionIdx = add $questionIdx 1 }}
         {{- end }}
     </div>
         {{- $groupNr = add $groupNr 1 }}
